@@ -16,7 +16,7 @@
 link donde se ha hallado el codigo para el getString():
 https://es.stackoverflow.com/questions/31601/guardar-cadena-de-caracteres-en-c
 el codigo se encuentra al final de la pagian
-*/
+ */
 
 char* getString(int chararacter){
 	//la variable que entra ha de ser un numero cualesquiera o 0, esto haria como true or false para determinar
@@ -36,12 +36,13 @@ char* getString(int chararacter){
 			string[stringSize+1] = 0;
 		}else {
 			printf("Por favor ingrese la cadena de caracteres que desea utilizar:\n");
+			fflush(stdout);
 			while( 1 ) {
 				string = (char*)realloc(string,stringSize + 1);
 				int c = getchar();
 				if( c == 10 ){
 					string[stringSize] = 0;
-				  break;
+					break;
 				}
 				string[stringSize] = (char)c;
 				stringSize++;
@@ -115,13 +116,13 @@ void Concatenate(){
 
 char* functionEncrypt(char* string, char* encrypted){
 	int ascii;
-//	for (int i= 0; i < strlne(string); i++) {
-//		ascii = string[i];
-//	}
-//	string = (char*)realloc(string,stringSize + 1);
+	//	for (int i= 0; i < strlne(string); i++) {
+	//		ascii = string[i];
+	//	}
+	//	string = (char*)realloc(string,stringSize + 1);
 	char stringC[strlen(encrypted)+strlen(string)];
-//	strcpy(stringC, stringD);
-//	strcat(stringC, stringI);
+	//	strcpy(stringC, stringD);
+	//	strcat(stringC, stringI);
 	strcat(encrypted, string);
 	printf("Concatenado perfectamente");
 
@@ -144,70 +145,114 @@ void decrypt(){
 
 }
 
+void functionName(char* string){
+
+/*
+	Compañeros esta es la funcion que convierte en nombre propio las cadenas de caracteres
+	ingresadas, la implemente teniendo en cuenta el codigo ascii, mediante la suma y resta
+	de los valores a los cuales corresponde cada letra, les recomiendo que por favor hagan
+	pruebas y en caso de algun error por favor avisar en el foro.
+*/
+
+	int numCharacters = strlen(string);
+
+	if(string[0] != ' ' && string[1] != ' ' && strlen(string) > 1){
+		if(string[0] >= 'a' && string[0]<='z'){
+			string[0] = (char)(('A'-'a') + string[0] );
+		}
+	}
+
+	else if (string[0] >= 'A' && string[0] <= 'Z'){
+		string[0] = (char)(string[0] + ('a' - 'A'));
+	}
+
+	for(int i=1; i<numCharacters; i++){
+
+		if((string[i-1] != ' ') || (string[i-1] == ' ' && string[i+1] == ' ' ) || (string[i+1] == '\0')){
+			if (string[i] >= 'A' && string[i] <= 'Z'){
+				string[i] = (char)(string[i] + ('a' - 'A'));
+			}
+		}
+		else if (string[i] >= 'a' && string[i] <= 'z'){
+			string[i] = (char)(('A'-'a') + string[i] );
+		}
+	}
+
+	printf("La cadena de caracteres ingresa convertida en nombre propio es: %s\n", string);
+}
+
+void name(){
+	char* string = getString(0);
+	functionName(string);
+}
+
 
 void menu(){
 	char option;
 	do{
 		system("cls");
 		printf("MENU:\n"
-			   "1) Convertir en nombre Propio el contenido de la cadena\n"
-			   "2) Contar el numero de veces que existe una palabra en una cadena\n"
-			   "3) Encriptar cadena\n"
-			   "4) Desencriptar\n"
-			   "5) Llenar caracteres por Izquierda o por Derecha\n"
-			   "6) Borrar caracteres de una cadena\n"
-			   "7) Intersección\n"
-			   "8) Diferencia entre dos cadenas\n"
-			   "9) Borrar caracteres Izquierda o Derecha\n"
-			   "0) Salir\n"
-			   "Por favor selecciona una opcion\n");
+				"1) Convertir en nombre Propio el contenido de la cadena\n"
+				"2) Contar el numero de veces que existe una palabra en una cadena\n"
+				"3) Encriptar cadena\n"
+				"4) Desencriptar\n"
+				"5) Llenar caracteres por Izquierda o por Derecha\n"
+				"6) Borrar caracteres de una cadena\n"
+				"7) Intersección\n"
+				"8) Diferencia entre dos cadenas\n"
+				"9) Borrar caracteres Izquierda o Derecha\n"
+				"0) Salir\n"
+				"Por favor selecciona una opcion\n");
+
 		scanf("%c", &option);
 		system("cls");
 		switch(option){
 
 		case '1':
-
-		break;
+			name();
+			break;
 
 		case '2':
 
-		break;
+			break;
 
 		case '3':
 			encrypt();
-		break;
+			break;
 
 		case '4':
 			decrypt();
-		break;
+			break;
 
 		case '5':
 
-		break;
+			Concatenate();
+
+			break;
 
 		case '6':
 
-		break;
+			break;
 
 		case '7':
 
-		break;
+			break;
 
 		case '8':
 
-		break;
+			break;
 
 		case '9':
 
-		break;
+			break;
 
 		case '0':
 			printf("Adios\n");
-		break;
+			break;
 
 		default:
 			printf("La opcion \"%c\" NO existe, por favor ingresa una opcion valida\n", option);
-		break;
+			break;
 		}
 		printf("Presiona enter para volver al menu\n");
 		fflush(stdin);
@@ -216,6 +261,8 @@ void menu(){
 }
 
 int main(void) {
+
 	menu();
+
 	return EXIT_SUCCESS;
 }
