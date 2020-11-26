@@ -61,44 +61,43 @@ char* getString(int chararacter){
 	return string;
 }
 
-void functionConcatenate(char* stringI, char* stringD, int numberOfRepetitions, char direction){
+void functionConcatenate(char* string, char* character, int numberOfRepetitions, char direction){
 	/*
-	StringD es la cadena que quedara a la DERECHA
-	StringI es la cadena que quedara a la IZQUIERDA
+	character es el caracter
+	string es la cadena
 	 */
 	int size;
 	if (direction=='I') {
-		size = strlen(stringI)+numberOfRepetitions;
+		size = strlen(string)+numberOfRepetitions;
 	}else{
-		size = strlen(stringD)+numberOfRepetitions;
+		size = strlen(character)+numberOfRepetitions;
 	}
 	char* stringC[size];
 	if (direction=='I') {
 		strcpy(stringC, "");
 	}else{
-		strcpy(stringC, stringI);
+		strcpy(stringC, string);
 	}
 	for (int i = 0; i < numberOfRepetitions; i++) {
-		strcat(stringC, stringD);
+		strcat(stringC, character);
 	}
 	if (direction=='I') {
-		strcat(stringC, stringI);
+		strcat(stringC, string);
 	}
 	printf("El resultado de nuestra funcion ha sido el siguiente %s\n",stringC);
 }
 
 void Concatenate(){
 	printf("Vamos a ingresar la cadena a utilizar\n");
-	char* stringA = getString(0);
+	char* string = getString(0);
 	printf("Vamos a ingresar el caracter a repetir\n");
-	char* stringB = getString(1);
+	char* character = getString(1);
 	char option;
 	while(1){
 		printf("Si desea repetir el caracter por el lado izquierdo de la cadena ingrese 'I', si desea repetir el caracter por el lado derecho de la cadena ingrese 'D'\n");
+		fflush(stdin);
 		scanf("%c", &option);
-		if (option=='I') {
-			break;
-		} else if(option=='D'){
+		if (option=='I' || option=='D') {
 			break;
 		}else {
 			printf("Lo lamento pero no podemos procesar la opcion %c\n", option);
@@ -109,29 +108,82 @@ void Concatenate(){
 		}
 	}
 	int numberOfRepetitions;
-	printf("Por favor ingresa la cantidad de veces que deseas repetir el caracter");
-	scanf("%i", &numberOfRepetitions);
-	functionConcatenate(stringA, stringB, numberOfRepetitions, option);
+	do {
+		printf("Por favor ingresa la cantidad de veces que deseas repetir el caracter\n");
+		scanf("%i", &numberOfRepetitions);
+		if (numberOfRepetitions<=0) {
+			printf("Lo lamento pero no es posible repetir un caracter %i veces\n",numberOfRepetitions);
+			printf("Presiona enter para ingresar un numero mayor a 0\n");
+			fflush(stdin);
+			getchar();
+			system("cls");
+		}
+	} while (numberOfRepetitions<=0);
+	functionConcatenate(string, character, numberOfRepetitions, option);
 }
 
-char* functionEncrypt(char* string, char* encrypted){
-	int ascii;
-	//	for (int i= 0; i < strlne(string); i++) {
-	//		ascii = string[i];
-	//	}
-	//	string = (char*)realloc(string,stringSize + 1);
-	char stringC[strlen(encrypted)+strlen(string)];
-	//	strcpy(stringC, stringD);
-	//	strcat(stringC, stringI);
-	strcat(encrypted, string);
-	printf("Concatenado perfectamente");
+void functionEncrypt(char* string){
+//	la idea que tome como referencia para encriptar fue cuando en los celulares de antes (las flechitas) tocaba oprimir varias
+//	veces una tecla para asi ingresar una letra, en esta ocacion lo que el programa muestra es el equivalente al numero que se
+//	oprimio n veces. De ser una letra mayuscula el numero sera negativo.
+//	todó esto usando el codigo ascii para identificar las letras, ya sean mayusculas o minusculas. si se ingresa culaquier caracter
+//	se mostrara su codigo ascii sin ninguna modificacion, en caso de ser un espacio se imprime un 0
+//
+//	por favor hagan pruebas de encriptado, si llegan a encontrar algun tipo de falla me lo informan por el foro. Gracias.
 
-	return string;
+	int ascii;
+	int numberOfRepetitions;
+	int value;
+	for (int i = 0; i < strlen(string); i++) {
+		ascii = (int)string[i];
+		if (ascii==32) {
+			printf("0");
+		}else if ((ascii>=65 && ascii<=90) || (ascii>=97 && ascii<=122)) {
+			if((ascii>=65 && ascii<=90)){
+						printf("-");
+						ascii+=32;
+					}
+
+					if ((ascii>=97 && ascii<=99) ) {//#2
+						numberOfRepetitions=(ascii-96);
+						value = 2;
+					} else if ((ascii>=100 && ascii<=102) ) {//#3
+						numberOfRepetitions=(ascii-99);
+						value = 3;
+					} else if ((ascii>=103 && ascii<=105) ) {//#4
+						numberOfRepetitions=(ascii-102);
+						value = 4;
+					} else if ((ascii>=106 && ascii<=108) ) {//#5
+						numberOfRepetitions=(ascii-105);
+						value = 5;
+					} else if ((ascii>=109 && ascii<=111) ) {//#6
+						numberOfRepetitions=(ascii-108);
+						value = 6;
+					} else if ((ascii>=112 && ascii<=115) ) {//#7
+						numberOfRepetitions=(ascii-111);
+						value = 7;
+					} else if ((ascii>=116 && ascii<=118) ) {//#8
+						numberOfRepetitions=(ascii-115);
+						value = 8;
+					} else if ((ascii>=119 && ascii<=122) ) {//#9
+						numberOfRepetitions=(ascii-118);
+						value = 9;
+					}
+					for (int j = 0; j <numberOfRepetitions; j++) {
+						printf("%i",value);
+					}
+		}else{
+			printf("%i",ascii);
+		}
+		printf("*");
+	}
+	printf("\n");
+
 }
 
 void encrypt(){
 	char* string = getString(0);
-	printf("El mensaje se a codificado correctamente\nEl neuvo mensaje es: %s\n",functionEncrypt(string, "#"));
+	functionEncrypt(string);
 }
 
 //char* functionDecrypt(){
@@ -140,7 +192,7 @@ void encrypt(){
 //}
 
 void decrypt(){
-	char* string = getString(0);
+//	char* string = getString(0);
 
 
 }
@@ -225,9 +277,7 @@ void menu(){
 			break;
 
 		case '5':
-
 			Concatenate();
-
 			break;
 
 		case '6':
