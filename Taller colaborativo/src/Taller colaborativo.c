@@ -126,7 +126,7 @@ void functionEncrypt(char* string){
 //	la idea que tome como referencia para encriptar fue cuando en los celulares de antes (las flechitas) tocaba oprimir varias
 //	veces una tecla para asi ingresar una letra, en esta ocacion lo que el programa muestra es el equivalente al numero que se
 //	oprimio n veces. De ser una letra mayuscula el numero sera negativo.
-//	todó esto usando el codigo ascii para identificar las letras, ya sean mayusculas o minusculas. si se ingresa culaquier caracter
+//	todÃ³ esto usando el codigo ascii para identificar las letras, ya sean mayusculas o minusculas. si se ingresa culaquier caracter
 //	se mostrara su codigo ascii sin ninguna modificacion, en caso de ser un espacio se imprime un 0
 //
 //	por favor hagan pruebas de encriptado, si llegan a encontrar algun tipo de falla me lo informan por el foro. Gracias.
@@ -186,21 +186,75 @@ void encrypt(){
 	functionEncrypt(string);
 }
 
-//char* functionDecrypt(){
-//
-//
-//}
+void functionDecrypt(char* string){
+	int value;
+	int multiplier;
+	int identifier;
+	char* number = strtok(string, "*");
+	if(number != NULL){
+		while(number != NULL){
+			value = 0;
+			multiplier = 1;
+			identifier = (((int)number[strlen(number)-1])-48);
+			if (identifier==0) {
+				identifier=-1;
+			}
+			for (int i = strlen(number)-1; i >= 0 ; i--) {
+				if (number[i]=='-') {
+					value*=-1;
+				}else{
+					value += (((int)number[i])-48)*multiplier;
+					multiplier*=10;
+				}
+			}
+
+			if (((value/identifier)==1 || (value/identifier)==11 || (value/identifier)==111 || (value/identifier)==1111 || //mayusculas
+				(value/identifier)==-1 || (value/identifier)==-11 || (value/identifier)==-111 || (value/identifier)==-1111)//minusculas
+				&& (identifier!=1)){
+				if (value<0) {
+					value*=-1;
+					value = (58+(identifier*3)+strlen(number)-1);
+					number[strlen(number)-1]=0;
+				}else{
+					value = (90+(identifier*3)+strlen(number));
+				}
+				if (identifier==8 || identifier==9) {
+					value++;
+				}
+				if (((identifier!=7 && identifier!=9) && strlen(number)<4) || ((identifier==7 || identifier==9) && strlen(number)<5)) {
+					printf("%c",(char)value);
+				}else{
+					printf("\nERROR no se ha pododido desencriptar el mensaje debido a que se enceuntra corrompido");
+					break;
+				}
+			}else if(value==-1){
+				printf(" ");
+			}else{
+				if ((value>255 || value<0) || (value>=65 && value<=90) || (value>=97 && value<=122)) {
+					printf("\nERROR no se ha pododido desencriptar el mensaje debido a que se enceuntra corrompido\n");
+					break;
+				}else{
+					printf("%c",(char)value);
+				}
+			}
+			number = strtok(NULL, "*");
+		}
+		printf("\n");
+	}else{
+		printf("ERROR la cadena ingresada no esta hecha para desencriptarâ—‹2n");
+	}
+
+}
 
 void decrypt(){
-//	char* string = getString(0);
-
-
+	char* string = getString(0);
+	functionDecrypt(string);
 }
 
 void functionName(char* string){
 
 /*
-	Compañeros esta es la funcion que convierte en nombre propio las cadenas de caracteres
+	CompaÃ±eros esta es la funcion que convierte en nombre propio las cadenas de caracteres
 	ingresadas, la implemente teniendo en cuenta el codigo ascii, mediante la suma y resta
 	de los valores a los cuales corresponde cada letra, les recomiendo que por favor hagan
 	pruebas y en caso de algun error por favor avisar en el foro.
@@ -250,7 +304,7 @@ void menu(){
 				"4) Desencriptar\n"
 				"5) Llenar caracteres por Izquierda o por Derecha\n"
 				"6) Borrar caracteres de una cadena\n"
-				"7) Intersección\n"
+				"7) Interseccion\n"
 				"8) Diferencia entre dos cadenas\n"
 				"9) Borrar caracteres Izquierda o Derecha\n"
 				"0) Salir\n"
@@ -304,15 +358,15 @@ void menu(){
 			printf("La opcion \"%c\" NO existe, por favor ingresa una opcion valida\n", option);
 			break;
 		}
-		printf("Presiona enter para volver al menu\n");
-		fflush(stdin);
-		getchar();
+		if (option!='0') {
+			printf("Presiona enter para volver al menu\n");
+			fflush(stdin);
+			getchar();
+		}
 	}while(option!='0');
 }
 
 int main(void) {
-
 	menu();
-
 	return EXIT_SUCCESS;
 }
