@@ -123,13 +123,13 @@ void Concatenate(){
 }
 
 void functionEncrypt(char* string){
-//	la idea que tome como referencia para encriptar fue cuando en los celulares de antes (las flechitas) tocaba oprimir varias
-//	veces una tecla para asi ingresar una letra, en esta ocacion lo que el programa muestra es el equivalente al numero que se
-//	oprimio n veces. De ser una letra mayuscula el numero sera negativo.
-//	todó esto usando el codigo ascii para identificar las letras, ya sean mayusculas o minusculas. si se ingresa culaquier caracter
-//	se mostrara su codigo ascii sin ninguna modificacion, en caso de ser un espacio se imprime un 0
-//
-//	por favor hagan pruebas de encriptado, si llegan a encontrar algun tipo de falla me lo informan por el foro. Gracias.
+	//	la idea que tome como referencia para encriptar fue cuando en los celulares de antes (las flechitas) tocaba oprimir varias
+	//	veces una tecla para asi ingresar una letra, en esta ocacion lo que el programa muestra es el equivalente al numero que se
+	//	oprimio n veces. De ser una letra mayuscula el numero sera negativo.
+	//	todó esto usando el codigo ascii para identificar las letras, ya sean mayusculas o minusculas. si se ingresa culaquier caracter
+	//	se mostrara su codigo ascii sin ninguna modificacion, en caso de ser un espacio se imprime un 0
+	//
+	//	por favor hagan pruebas de encriptado, si llegan a encontrar algun tipo de falla me lo informan por el foro. Gracias.
 
 	int ascii;
 	int numberOfRepetitions;
@@ -140,38 +140,38 @@ void functionEncrypt(char* string){
 			printf("0");
 		}else if ((ascii>=65 && ascii<=90) || (ascii>=97 && ascii<=122)) {
 			if((ascii>=65 && ascii<=90)){
-						printf("-");
-						ascii+=32;
-					}
+				printf("-");
+				ascii+=32;
+			}
 
-					if ((ascii>=97 && ascii<=99) ) {//#2
-						numberOfRepetitions=(ascii-96);
-						value = 2;
-					} else if ((ascii>=100 && ascii<=102) ) {//#3
-						numberOfRepetitions=(ascii-99);
-						value = 3;
-					} else if ((ascii>=103 && ascii<=105) ) {//#4
-						numberOfRepetitions=(ascii-102);
-						value = 4;
-					} else if ((ascii>=106 && ascii<=108) ) {//#5
-						numberOfRepetitions=(ascii-105);
-						value = 5;
-					} else if ((ascii>=109 && ascii<=111) ) {//#6
-						numberOfRepetitions=(ascii-108);
-						value = 6;
-					} else if ((ascii>=112 && ascii<=115) ) {//#7
-						numberOfRepetitions=(ascii-111);
-						value = 7;
-					} else if ((ascii>=116 && ascii<=118) ) {//#8
-						numberOfRepetitions=(ascii-115);
-						value = 8;
-					} else if ((ascii>=119 && ascii<=122) ) {//#9
-						numberOfRepetitions=(ascii-118);
-						value = 9;
-					}
-					for (int j = 0; j <numberOfRepetitions; j++) {
-						printf("%i",value);
-					}
+			if ((ascii>=97 && ascii<=99) ) {//#2
+				numberOfRepetitions=(ascii-96);
+				value = 2;
+			} else if ((ascii>=100 && ascii<=102) ) {//#3
+				numberOfRepetitions=(ascii-99);
+				value = 3;
+			} else if ((ascii>=103 && ascii<=105) ) {//#4
+				numberOfRepetitions=(ascii-102);
+				value = 4;
+			} else if ((ascii>=106 && ascii<=108) ) {//#5
+				numberOfRepetitions=(ascii-105);
+				value = 5;
+			} else if ((ascii>=109 && ascii<=111) ) {//#6
+				numberOfRepetitions=(ascii-108);
+				value = 6;
+			} else if ((ascii>=112 && ascii<=115) ) {//#7
+				numberOfRepetitions=(ascii-111);
+				value = 7;
+			} else if ((ascii>=116 && ascii<=118) ) {//#8
+				numberOfRepetitions=(ascii-115);
+				value = 8;
+			} else if ((ascii>=119 && ascii<=122) ) {//#9
+				numberOfRepetitions=(ascii-118);
+				value = 9;
+			}
+			for (int j = 0; j <numberOfRepetitions; j++) {
+				printf("%i",value);
+			}
 		}else{
 			printf("%i",ascii);
 		}
@@ -209,8 +209,8 @@ void functionDecrypt(char* string){
 			}
 
 			if (((value/identifier)==1 || (value/identifier)==11 || (value/identifier)==111 || (value/identifier)==1111 || //mayusculas
-				(value/identifier)==-1 || (value/identifier)==-11 || (value/identifier)==-111 || (value/identifier)==-1111)//minusculas
-				&& (identifier!=1)){
+					(value/identifier)==-1 || (value/identifier)==-11 || (value/identifier)==-111 || (value/identifier)==-1111)//minusculas
+					&& (identifier!=1)){
 				if (value<0) {
 					value*=-1;
 					value = (58+(identifier*3)+strlen(number)-1);
@@ -251,14 +251,134 @@ void decrypt(){
 	functionDecrypt(string);
 }
 
+
+
+
+void functionOrder(char* string){
+
+	/*
+	functionOrder es una funcion de ordenamiento y de impresion
+	es utilizada por los metodos 6: eliminar caracter y por la
+	funcion 8:diferencia entre dos cadenas
+	 */
+
+	int sizeString = strlen(string);
+
+	for(int k=0; k<sizeString-1;k++){
+		for(int h=0; h<sizeString-1;h++){
+			if(string[h] == '*'){
+				string[h] = string[h+1];
+				string[h+1] = '*';
+			}
+		}
+	}
+
+	for(int i=0; i<sizeString;i++){
+		if(string[i] =='*'){
+			string[i] = ' ';
+		}
+	}
+
+	printf("La cadena resultande es: %s \n",string);
+	fflush(stdout);
+
+}
+
+
+void functionDeleteCharacter(char* string, char character){
+
+	int sizeString = strlen(string);
+
+	for(int i=0; i<sizeString; i++){
+		if (string[i] >= 'A' && string[i] <= 'Z'){
+			string[i] = (char)(string[i] + ('a' - 'A'));
+		}
+	}
+
+	if (character >= 'A' && character <= 'Z'){
+		character = character + ('a' - 'A');
+	}
+
+	for(int i=0; i<sizeString; i++){
+		if (string[i] == character){
+			string[i] = '*';
+		}
+	}
+
+	functionOrder(string);
+}
+
+
+void deleteCharacter(){
+
+	char character = ' ';
+	char* string = getString(0);
+
+	while(character == ' '){
+
+		printf("%s","Por favor ingrese el caracter a borrar: " );
+		scanf("%c", &character);
+		fflush(stdin);
+
+		if(character == ' '){
+			printf("%s \n","No es posible procesar un espacio en blanco como caracter, intente nuevamente" );
+		}
+	}
+
+
+	functionDeleteCharacter(string,character);
+}
+
+
+void functionDifferenceBetweenStrings(char* stringOne, char* stringTwo){
+
+	int sizeOne = strlen(stringOne);
+	int sizeTwo = strlen(stringTwo);
+
+	for(int i=0; i<sizeOne; i++){
+		if (stringOne[i] >= 'A' && stringOne[i] <= 'Z'){
+			stringOne[i] = (char)(stringOne[i] + ('a' - 'A'));
+		}
+	}
+
+	for(int i=0; i<sizeTwo; i++){
+		if (stringTwo[i] >= 'A' && stringTwo[i] <= 'Z'){
+			stringTwo[i] = (char)(stringTwo[i] + ('a' - 'A'));
+		}
+	}
+
+	for(int i=0; i<sizeOne; i++){
+		for(int j=0; j<sizeTwo; j++){
+			if(stringTwo[j] == stringOne[i]){
+				if(stringTwo[j] != ' '){
+					stringOne[i] = '*';
+				}
+			}
+		}
+	}
+
+
+	functionOrder(stringOne);
+}
+
+
+void differenceBetweenStrings(){
+	printf("%s\n", "-Cadena Uno");
+	char* stringOne = getString(0);
+	printf("%s\n", "-Cadena Dos");
+	char* stringTwo = getString(0);
+	functionDifferenceBetweenStrings(stringOne, stringTwo);
+}
+
+
 void functionName(char* string){
 
-/*
+	/*
 	Compañeros esta es la funcion que convierte en nombre propio las cadenas de caracteres
 	ingresadas, la implemente teniendo en cuenta el codigo ascii, mediante la suma y resta
 	de los valores a los cuales corresponde cada letra, les recomiendo que por favor hagan
 	pruebas y en caso de algun error por favor avisar en el foro.
-*/
+	 */
 
 	int numCharacters = strlen(string);
 
@@ -284,7 +404,7 @@ void functionName(char* string){
 		}
 	}
 
-	printf("La cadena de caracteres ingresa convertida en nombre propio es: %s\n", string);
+	printf("La cadena de caracteres ingresada convertida en nombre propio es: %s\n", string);
 }
 
 void name(){
@@ -335,7 +455,7 @@ void menu(){
 			break;
 
 		case '6':
-
+			deleteCharacter();
 			break;
 
 		case '7':
@@ -343,7 +463,7 @@ void menu(){
 			break;
 
 		case '8':
-
+			differenceBetweenStrings();
 			break;
 
 		case '9':
