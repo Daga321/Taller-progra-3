@@ -11,6 +11,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
+
 
 /*
 link donde se ha hallado el codigo para el getString():
@@ -412,6 +414,167 @@ void name(){
 	functionName(string);
 }
 
+	/*esta funcion permite mmodificar las cadenas a minusculas, por medio de la funcion
+	 * tolower perteniciente derivada de la libreria ctype
+	 */
+void changeMinus(char* pal){
+	for (int i = 0; i < strlen(pal); i++ )  {
+		pal[i] = tolower( pal[i] );
+	}
+}
+
+	/*compañeros esta es la funcion 2, buscar palabra en una cadena, busca una palabra o
+	 * una cadena dentro de otra cadena y retorna cuantas veces aparece
+	 */
+void functionFindMistake(char* stringOne, char* mistak){
+
+	int sizeStringOne = strlen(stringOne);
+	int tamanhoMistak = strlen(mistak);
+
+	//convertir cadena a minusculas
+	changeMinus(stringOne);
+	//convertir mistake a minusculas
+	changeMinus(mistak);
+
+	int j = 0;
+	int iguales = 0;
+	int palabrasEncontradas = 0;
+
+	for(int i = 0 ; i < sizeStringOne ; i++){
+		if (stringOne[i] == mistak[j]){
+			iguales+=1;
+			j+=1;
+		}else{
+			iguales = 0;
+			j = 0;
+		}
+
+		if(iguales == tamanhoMistak){
+			palabrasEncontradas+=1;
+			j = 0;
+			iguales = 0;
+		}
+	}
+
+	printf("Numero de palabras encontradas: %d\n", palabrasEncontradas);
+}
+
+
+void findMistake(){
+
+	printf("%s\n", "-Cadena Uno");
+	char* stringOne = getString(0);
+	printf("%s\n", "-Palabra a buscar");
+	char* mistak = getString(0);
+
+	functionFindMistake(stringOne, mistak);
+}
+
+	/*la funcion findChar permite buscar si en una cadena existe un caracter y retorna
+	 * cuantas veces existe
+	 */
+int findChar(char *cad, char letra){
+	int count = 0;
+	for(int i = 0; i < strlen(cad); i++){
+		if(letra == cad[i]){
+			count += 1;
+		}
+	}
+	return count;
+}
+
+	/*la funcion interseccion, correspondiente a la funcion 7, permite conocer la
+	 * interseccion entre
+	 * dos cadenas
+	 */
+void functionIntersection(char* stringOne,char* stringTwo){
+
+	int sizeStringOne = strlen(stringOne) +1;
+	int sizeStringTwo = strlen(stringTwo) +1;
+
+	changeMinus(stringOne);
+	changeMinus(stringTwo);
+
+	char result[50] = "";
+
+	for (int i = 0; i < (sizeStringOne-1); i++) {
+		for (int j = 0; j < (sizeStringTwo-1)  ; j++) {
+			if (stringOne[i] == stringTwo[j] ) {
+
+				if(findChar(result, stringTwo[j]) == 0){
+					result[strlen(result)] = stringTwo[j];
+				}
+
+			}
+
+		}
+	}
+	printf("La interseccion es: %s\n",result);
+}
+
+
+void intersection(){
+
+	printf("%s\n", "-Cadena Uno");
+	char* stringOne = getString(0);
+	printf("%s\n", "-Cadena Dos");
+	char* stringTwo = getString(0);
+	functionIntersection(stringOne,stringTwo);
+}
+
+	/*la funcion DeleteLeftOrRigth, correspondiente a la funcion 9, permite borrar
+	 *  caracteres de la cadena ya sea por derecha o por izquierda hasta que encuentre
+	 *   un caracter diferente
+	 */
+void FunctionDeleteLeftOrRight(char* stringOne, char* stringTwo, int izqDer){
+
+	changeMinus(stringOne);
+	changeMinus(stringTwo);
+
+
+	int i = 0;
+
+	if(izqDer == 1){
+		i = 0;
+	}else if(izqDer == 2){
+		i = strlen(stringOne)-1;
+	}
+
+	while(findChar(stringTwo,stringOne[i]) >= 1){
+		if(izqDer == 1){
+			stringOne[i] = '*';
+			i++;
+		}else if(izqDer == 2){
+			stringOne[i] = NULL;
+			i--;
+		}
+	}
+
+	while(stringOne[0] == '*'){
+		for (int j = 0; j < strlen(stringOne); j++) {
+			stringOne[j] = stringOne[j+1];
+		}
+	}
+	printf("%s\n", stringOne);
+
+}
+
+
+
+void deleteLeftOrRight(){
+
+	int izqDer = 0;
+
+	printf("%s\n", "-Cadena Uno");
+	char* stringOne = getString(0);
+	printf("%s\n", "-Cadena Dos");
+	char* stringTwo = getString(0);
+
+	printf("digite: \n 1. para borrar por izquierda\n 2. para borrar por derecha\n");
+	scanf("%d", &izqDer);
+
+	FunctionDeleteLeftOrRight(stringOne, stringTwo, izqDer);
+}
 
 void menu(){
 	char option;
@@ -439,7 +602,7 @@ void menu(){
 			break;
 
 		case '2':
-
+			findMistake();
 			break;
 
 		case '3':
@@ -459,7 +622,7 @@ void menu(){
 			break;
 
 		case '7':
-
+			intersection();
 			break;
 
 		case '8':
@@ -467,7 +630,7 @@ void menu(){
 			break;
 
 		case '9':
-
+			deleteLeftOrRight();
 			break;
 
 		case '0':
