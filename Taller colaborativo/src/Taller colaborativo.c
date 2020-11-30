@@ -526,7 +526,7 @@ void intersection(){
 	 *  caracteres de la cadena ya sea por derecha o por izquierda hasta que encuentre
 	 *   un caracter diferente
 	 */
-void FunctionDeleteLeftOrRight(char* stringOne, char* stringTwo, int izqDer){
+void FunctionDeleteLeftOrRight(char* stringOne, char* stringTwo, char izqDer){
 
 	changeMinus(stringOne);
 	changeMinus(stringTwo);
@@ -534,17 +534,17 @@ void FunctionDeleteLeftOrRight(char* stringOne, char* stringTwo, int izqDer){
 
 	int i = 0;
 
-	if(izqDer == 1){
+	if(izqDer == '1'){
 		i = 0;
-	}else if(izqDer == 2){
+	}else if(izqDer == '2'){
 		i = strlen(stringOne)-1;
 	}
 
 	while(findChar(stringTwo,stringOne[i]) >= 1){
-		if(izqDer == 1){
+		if(izqDer == '1'){
 			stringOne[i] = '*';
 			i++;
-		}else if(izqDer == 2){
+		}else if(izqDer == '2'){
 			stringOne[i] = NULL;
 			i--;
 		}
@@ -563,15 +563,27 @@ void FunctionDeleteLeftOrRight(char* stringOne, char* stringTwo, int izqDer){
 
 void deleteLeftOrRight(){
 
-	int izqDer = 0;
+	char izqDer = '0';
+	int option = 0;
 
 	printf("%s\n", "-Cadena Uno");
 	char* stringOne = getString(0);
 	printf("%s\n", "-Cadena Dos");
 	char* stringTwo = getString(0);
 
-	printf("digite: \n 1. para borrar por izquierda\n 2. para borrar por derecha\n");
-	scanf("%d", &izqDer);
+	while(option == 0){
+
+			printf("digite: \n 1. para borrar por izquierda\n 2. para borrar por derecha\n");
+			scanf("%c", &izqDer);
+			fflush(stdin);
+
+			if(izqDer == '1' || izqDer == '2'){
+				option = 1;
+			}
+			else{
+				printf("Ingrese una opcion valida\n");
+			}
+		}
 
 	FunctionDeleteLeftOrRight(stringOne, stringTwo, izqDer);
 }
